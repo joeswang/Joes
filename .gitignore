@@ -1,0 +1,6 @@
+# compiled source
+*.obj
+*.res
+*.exe
+*.o
+*.so
