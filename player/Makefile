@@ -17,9 +17,12 @@ $(OUTDIR)\main.res: main.rc resource.h
 $(OUTDIR)\main.obj: main.c resource.h
     cl /c /WX /Fo"$(OUTDIR)\\" /Fd"$(OUTDIR)\\" main.c
 
+$(OUTDIR)\swflib.obj: swflib\swflib.c
+    cl /c /WX /Fo"$(OUTDIR)\\" /Fd"$(OUTDIR)\\" swflib\swflib.c
+
 # Update the executable file if necessary, and if so, add the resource back in.
-$(OUTDIR)\Player.exe: $(OUTDIR)\main.obj $(OUTDIR)\main.res
-    link -out:$(OUTDIR)\Player.exe $(OUTDIR)\main.obj $(OUTDIR)\main.res gdi32.lib user32.lib
+$(OUTDIR)\Player.exe: $(OUTDIR)\main.obj $(OUTDIR)\swflib.obj $(OUTDIR)\main.res
+    link -out:$(OUTDIR)\Player.exe $(OUTDIR)\main.obj $(OUTDIR)\swflib.obj $(OUTDIR)\main.res gdi32.lib user32.lib
 
 clean:
        del /F $(OUTDIR)\*

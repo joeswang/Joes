@@ -1,15 +1,28 @@
 #include <windows.h>
+#include <tchar.h>
+#include <stdio.h>
+#include <io.h>
+#include <share.h>
+#include <fcntl.h>
+
+#include "swflib/swflib.h"
 #include "resource.h"
+
+#define	VIDEO_NORMAL_WIDTH	800
+#define VIDEO_NORMAL_HEIGHT	600
 
 // Global Variables:
 HINSTANCE	g_hInstance;							// current instance
-HDC			g_memdc;
+HDC		g_memdc;
 HBITMAP		g_hbit;
 HBRUSH		g_hbrush;
 int maxX, maxY;
 
 char szTitle[] = ("MBoo Player");				// The title bar text
 char szWindowClass[] = ("MBoo.Player");			// the main window class name
+char szFileName[] = ("d:\\output\\bbk5450\\bbk5450.swf");
+int  g_pfh;
+SWF  g_swf;
 
 // Forward declarations of functions included in this code module:
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -83,6 +96,7 @@ TEXTMETRIC	tm;
 char str[255];
 HDC hdc;
 int l,t,b,r;
+int ret;
 
 	switch (message)
 	{
@@ -119,6 +133,15 @@ int l,t,b,r;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
+		case IDM_FILE_OPEN:
+			ret = _sopen_s(&g_pfh, szFileName, _O_BINARY | _O_RDONLY, _SH_DENYWR, 0);
+			if(0 != ret)
+			{
+				MessageBox(hWnd, _T("Open File ERROR!"), _T("Open File"), MB_OK);
+			}
+			swf_ReadSWF(g_pfh, &g_swf);
+			_close(g_pfh);
+			MessageBox(hWnd, _T("Open File OK"), _T("Open File"), MB_OK);
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
