@@ -1,3 +1,6 @@
+/*************************************************************
+ * This is the main entry of MBoo Player
+ *************************************************************/
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
@@ -134,6 +137,7 @@ int ret;
 			DestroyWindow(hWnd);
 			break;
 		case IDM_FILE_OPEN:
+			/*
 			ret = _sopen_s(&g_pfh, szFileName, _O_BINARY | _O_RDONLY, _SH_DENYWR, 0);
 			if(0 != ret)
 			{
@@ -141,6 +145,7 @@ int ret;
 			}
 			swf_ReadSWF(g_pfh, &g_swf);
 			_close(g_pfh);
+			*/
 			MessageBox(hWnd, _T("Open File OK"), _T("Open File"), MB_OK);
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
