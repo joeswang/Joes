@@ -44,9 +44,9 @@ int ret;
 TAG* tag;
 int tagnum;
 SWF swf;
-	if(argc != 2)
+	if(argc < 2)
 	{
-		printf("Usage: %s swfile\n", argv[0]);
+		printf("Usage: %s swfile mp3file\n", argv[0]);
 		return 0;
 	}
 
@@ -56,6 +56,8 @@ SWF swf;
 		printf("Open file error! %s", argv[1]);
 		return -1;
 	}
+
+	if(argc > 2) filename = argv[2];
 
 	printf("Open file OK! %s\n", argv[1]);
 
