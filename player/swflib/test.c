@@ -6,37 +6,6 @@
 
 #include "swflib.h"
 
-static FILE* mp3file = 0;
-static char* filename = "output.mp3";
-
-void handlesoundstream(TAG* tag)
-{
-	switch(tag->id)
-	{
-	case ST_SOUNDSTREAMHEAD :
-		if((tag->data[1] & 0x30) == 0x20)
-		{
-			mp3file = fopen(filename, "wb");
-		}
-		break;
-		break;
-	case ST_SOUNDSTREAMHEAD2 :
-		if((tag->data[1] & 0x30) == 0x20)
-		{
-			mp3file = fopen(filename, "wb");
-		}
-		break;
-	case ST_SOUNDSTREAMBLOCK :
-		if(mp3file)
-		{
-			fwrite(&tag->data[4], tag->len-4, 1, mp3file);
-		}
-		break;
-	default :
-		break;
-	}
-
-}
 int main(int argc, char* argv[])
 {
 int f;
@@ -82,18 +51,8 @@ SWF swf;
 
 	while(tag)
 	{
-		if(tag->id == ST_SOUNDSTREAMHEAD || tag->id == ST_SOUNDSTREAMHEAD2 || tag->id == ST_SOUNDSTREAMBLOCK)
-		{
-			tagnum++;
-			handlesoundstream(tag);
-		}
+		tagnum++;
 		tag = tag->next;
-	}
-
-	if(mp3file) 
-	{
-		printf("\tMP3 Tags: %d\n", tagnum);
-		fclose(mp3file);
 	}
 
 	ret = swf_FreeTags(&swf);
